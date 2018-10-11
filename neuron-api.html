@@ -34,14 +34,13 @@ nervos.js version used: 1.0
 	  window.nervos = Nervos("http://121.196.200.225:1337");
     //window.web3 = new Web3(new nervos.providers.HttpProvider("https://proxy.mobilefish.com:9070"));
   }
-  const privateKey = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-  const account=  nervos.appchain.accounts.privateKeyToAccount(privateKey)
-  nervos.appchain.accounts.wallet.add(account)
 
 
 
   // Now you can start your app & access web3 freely:
-  startApp();
+  window.addEventListener("neuronWebReady", () => {
+    startApp();
+  })
 })
 
 // =================================================
@@ -49,9 +48,9 @@ nervos.js version used: 1.0
 function startApp(){
   showPeerCount();
   showMetaData();
-  // showAccounts();
+  showAccounts();
   showCurrentBlockNumber();
-  // showGetBalance();
+  showGetBalance();
 }
 // =================================================
 
@@ -95,9 +94,14 @@ function showCurrentBlockNumber() {
 // =================================================
 
 function showGetBalance() {
-  const account = nervos.appchain.defaultAccount
-  nervos.appchain.getBalance(account).then(balance => {
-    document.getElementById('balance').innerHTML = "nervos.appchain.getBalance] Balance of " + account + "is: " + balance + "<br />";
+  nervos.appchain.getAccounts().then(accounts => {
+    const account = accounts[0]
+    if (account) {
+    nervos.appchain.getBalance(account).then(balance => {
+      document.getElementById('balance').innerHTML = "nervos.appchain.getBalance] Balance of " + account + "is: " + balance + "<br />";
+  })
+
+    }
   })
 }
 
@@ -179,8 +183,13 @@ function sendTransaction() {
     version: 0
   }
 
-  nervos.appchain.sendTransaction(tx).then(res => {
-    document.getElementById('transactionResponse').innerHTML = "Transaction response= " + parseResultObject(res) + "<br />";
+  nervos.appchain.getBlockNumber().then(blockNumber => {
+    tx.validUntilBlock = +blockNumber + 88
+    return
+  }).then(() => {
+    nervos.appchain.sendTransaction(tx).then(res => {
+      document.getElementById('transactionResponse').innerHTML = "Transaction response= " + parseResultObject(res) + "<br />";
+    })
   })
 }
 
@@ -204,8 +213,13 @@ function sendContractTransaction() {
       version: 0
     }
 
-    nervos.appchain.sendTransaction(tx).then(res => {
-        document.getElementById('transactionResponse2').innerHTML = "Contract transaction response= " + parseResultObject(res) + "<br />";
+    nervos.appchain.getBlockNumber().then(blockNumber => {
+      tx.validUntilBlock = +blockNumber + 88
+      return
+    }).then(() => {
+      nervos.appchain.sendTransaction(tx).then(res => {
+          document.getElementById('transactionResponse2').innerHTML = "Contract transaction response= " + parseResultObject(res) + "<br />";
+      })
     })
   }
 }
