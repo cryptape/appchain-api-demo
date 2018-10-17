@@ -187,7 +187,7 @@ function sendTransaction() {
     tx.validUntilBlock = +blockNumber + 88
     return
   }).then(() => {
-    nervos.appchain.sendTransaction(tx).then(res => {
+    nervos.appchain.sendTransaction(tx, res => {
       document.getElementById('transactionResponse').innerHTML = "Transaction response= " + parseResultObject(res) + "<br />";
     })
   })
