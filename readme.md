@@ -1,7 +1,8 @@
-# Nervos-api page
+# appchain-api html
 
-This project show almost api method of nervos.js, you can study nervos.js SDK intuitively.
+This project show almost api method of appchain.js, you can study appchain.js SDK intuitively.
 
 ## How to Start
 
-Input `yarn install` in teminal and download needed libraries. Then you can directly visit appchain-api.html in browser
+* Execute `yarn install` in teminal and download needed libraries
+* Then you can directly visit `appchain-api.html` in browser
