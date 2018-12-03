@@ -1,0 +1,9 @@
+{
+  "name": "nervos_api",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "appchain-api",
+  "dependencies": {
+    "@appchain/base": "^0.20.3"
+  }
+}
